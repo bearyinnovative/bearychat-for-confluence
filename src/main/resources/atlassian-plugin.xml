@@ -1,0 +1,112 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="atlassian-data-center-compatible">true</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="bearychat-for-confluence"/>
+    
+    <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
+    
+    <component name="Annotated Event Listener" key="annotated-listener"
+               class="com.bearychat.components.AnnotatedListener"/>
+
+    <component-import name="Request Factory" key="request-factory" interface="com.atlassian.sal.api.net.RequestFactory" />
+    <component-import name="Executor Factory" key="executor-factory" interface="com.atlassian.sal.api.executor.ThreadLocalDelegateExecutorFactory" />
+
+    <component name="Configuration Manager"
+               key="configurationManager"
+               class="com.bearychat.components.ConfigurationManager">
+        <description>Stores the details of the configured BearyChat settings in Bandana</description>
+    </component>
+
+    <!-- Admin config -->
+    <xwork name="bearychatConfigurationAction" key="bearychatConfigurationAction">
+        <package name="bearychat-configure" extends="default" namespace="/admin">
+            <default-interceptor-ref name="defaultStack"/>
+
+            <action name="bearychat" class="com.bearychat.actions.ViewConfigurationAction">
+                <result name="success" type="velocity">/templates/bearychatadmin/configuration.vm</result>
+            </action>
+            <action name="doconfigure-bearychat" class="com.bearychat.actions.SaveConfigurationAction">
+                <interceptor-ref name="validatingStack"/>
+                <param name="RequireSecurityToken">true</param>
+                <result name="input" type="velocity">/templates/bearychatadmin/configuration.vm</result>
+                <result name="error" type="velocity">/templates/bearychatadmin/configuration.vm</result>
+                <result name="redirect" type="redirect">/spaces/bearychat.action?key=${spaceKey}</result>
+                <result name="success" type="redirect">/admin/bearychat.action?result=success</result>
+            </action>
+
+        </package>
+    </xwork>
+
+    <web-item key="bearychat-configuration" name="BearyChat Configuration" section="system.admin/configuration"
+              weight="1000">
+        <description key="bearychat-configuration.name">BearyChat Configuration</description>
+        <label key="bearychat-configuration.name"/>
+        <link linkId="bearychat-configuration">/admin/bearychat.action</link>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.ConfluenceAdministratorCondition"/>
+    </web-item>
+
+    <!-- Space config -->
+    <xwork name="bearychatSpaceConfigurationAction" key="bearychatSpaceConfigurationAction">
+        <package name="bearychat-space-configure" extends="default" namespace="/spaces">
+            <default-interceptor-ref name="defaultStack"/>
+
+            <action name="bearychat" class="com.bearychat.actions.ViewSpaceConfigurationAction">
+                <result name="success" type="velocity">/templates/bearychatadmin/space-config.vm</result>
+            </action>
+            <action name="doconfigure-bearychat" class="com.bearychat.actions.SaveSpaceConfigurationAction">
+                <interceptor-ref name="validatingStack"/>
+                <param name="RequireSecurityToken">true</param>
+                <result name="input" type="velocity">/templates/bearychatadmin/space-config.vm</result>
+                <result name="error" type="velocity">/templates/bearychatadmin/space-config.vm</result>
+                <result name="success" type="redirect">/spaces/bearychat.action?key=${key}&amp;result=success</result>
+            </action>
+
+        </package>
+    </xwork>
+
+    <web-item key="bearychat-space-configuration" name="BearyChat Space Configuration"
+              section="system.space.admin/addons"
+              weight="1000">
+        <description key="bearychat-space-configuration.name">BearyChat Space Configuration</description>
+        <label key="bearychat-space-configuration.name"/>
+        <link linkId="bearychat-space-configuration">/spaces/bearychat.action?key=$generalUtil.urlEncode($space.key)</link>
+        <icon height="16" width="16">
+            <link absolute="true">
+                $webResourceManager.getStaticPluginResource("${project.groupId}.${project.artifactId}:image-resources",
+                "bearychat-icon-16x16.png")
+            </link>
+        </icon>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.HasSpaceCondition"/>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpacePermissionCondition">
+            <param name="permission">administer</param>
+        </condition>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.NotPersonalSpaceCondition"/>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpaceSidebarCondition" invert="true"/>
+    </web-item>
+
+    <web-item key="bearychat-space-configuration-2" name="BearyChat Space Configuration"
+              section="system.space.tools/addons"
+              weight="1000">
+        <description key="bearychat-space-configuration.name">BearyChat Space Configuration</description>
+        <label key="bearychat-space-configuration.name"/>
+        <link linkId="bearychat-space-configuration">/spaces/bearychat.action?key=$generalUtil.urlEncode($space.key)</link>
+        <icon height="16" width="16">
+            <link absolute="true">
+                $webResourceManager.getStaticPluginResource("${project.groupId}.${project.artifactId}:image-resources",
+                "bearychat-icon-16x16.png")
+            </link>
+        </icon>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.HasSpaceCondition"/>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpacePermissionCondition">
+            <param name="permission">administer</param>
+        </condition>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.NotPersonalSpaceCondition"/>
+        <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpaceSidebarCondition"/>
+    </web-item>
+</atlassian-plugin>

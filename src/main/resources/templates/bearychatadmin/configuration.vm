@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>BearyChat Configuration</title>
+</head>
+<body>
+<form action="$req.contextPath/admin/doconfigure-bearychat.action" method="post" class="aui">
+    #form_xsrfToken()
+    <input type="hidden" name="spaceKey" value="$!req.getParameter("spaceKey")" />
+    <h2>BearyChat API Webhook URL Configuration</h2>
+
+    #if($actionErrors && $actionErrors.size() > 0)
+    <div class="aui-message error">
+        <span class="svg-icon error size-18"></span>
+        <strong>$action.getText("errors.occurred")</strong>
+        <ul>
+            #foreach($error in $actionErrors)
+                <li>$error</li>
+            #end
+        </ul>
+    </div>
+    #end
+    #if($action.successFullUpdate)
+        <div class="aui-message success shadowed closeable">
+            <p class="title">
+                <span class="aui-icon icon-success"></span>
+                <strong>$action.getText("bearychat.action.success.webhookconfig")</strong>
+            </p>
+        </div>
+        <!-- .aui-message -->
+    #end
+
+    <p>
+        Confluence accesses BearyChat through a Webhook URL.
+    </p>
+
+    <div class="field-group">
+        <label for="bearychatWebhookUrl">Webhook URL<span class="aui-icon icon-required"></span><span class="content"> required</span></label>
+        <input id="bearychatWebhookUrl" class="text" name="bearychatWebhookUrl" value="$!action.bearychatWebhookUrl"/>
+    </div>
+
+    <div class="buttons-container">
+        <div class="buttons">
+            <input class="button submit" type="submit" value="Save"/>
+        </div>
+    </div>
+</form>
+</body>
+</html>
