@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * Ref - https://github.com/bearyinnovative/beary-docs/blob/master/snitch/attachments.md
  */
 public class BearychatAttachment {
+
+    public static final String BRIGHT_COLOR = "#D2F3D8";
+
 	@SerializedName("favicon")
 	private String favicon;
 	@SerializedName("color")

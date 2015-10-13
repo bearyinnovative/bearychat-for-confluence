@@ -1,8 +1,6 @@
 package com.bearychat.core;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Bearychat {
     private String webhookUrl;
@@ -18,7 +16,7 @@ public class Bearychat {
         this.webhookUrl = webhookUrl;
     }
 
-    public Bearychat sendToChannel(String channel) {
+    public Bearychat channel(String channel) {
         this.channel = channel;
         return this;
     }
@@ -27,17 +25,5 @@ public class Bearychat {
         if (message != null) {
             bearychatService.push(webhookUrl, message, channel);
         }
-    }
-
-    public void push(BearychatAttachment attachment) throws IOException {
-        if (attachment != null) {
-        	List<BearychatAttachment> attachments = new ArrayList<BearychatAttachment>();
-        	attachments.add(attachment);
-        	this.push(attachments);
-        }
-    }
-
-    public void push(List<BearychatAttachment> attachments) throws IOException {
-        bearychatService.push(webhookUrl, new BearychatMessage(), channel, attachments);
     }
 }

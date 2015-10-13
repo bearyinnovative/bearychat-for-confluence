@@ -3,6 +3,7 @@ package com.bearychat.components;
 import com.atlassian.bandana.BandanaContext;
 import com.atlassian.bandana.BandanaManager;
 import com.atlassian.confluence.setup.bandana.ConfluenceBandanaContext;
+import com.bearychat.components.ConfigurationOption;
 
 public class ConfigurationManager {
    private static final ConfluenceBandanaContext GLOBAL_CONTEXT = ConfluenceBandanaContext.GLOBAL_CONTEXT;

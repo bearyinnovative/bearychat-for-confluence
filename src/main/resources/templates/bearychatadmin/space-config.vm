@@ -49,11 +49,11 @@
         <!-- .aui-message -->
         #end
     <p>
-        Confluence will notify a BearyChat channel when a blog post is created or a page is created or updated in this space. Enter the BearyChat channels to be notified (comma-separated) below.
+        Confluence will notify a BearyChat channel when a blog/page is created/trashed/deleted/restored, comment is created. Enter the BearyChat channel to be notified below.
     </p>
 
     <div class="field-group">
-        <label for="channels">Channels (without #, comma-separated)</label>
+        <label for="channels">Channel (without #)</label>
         <input id="channels" class="text long-field" type="text" name="channels" value="$!action.channels"/>
     </div>
 

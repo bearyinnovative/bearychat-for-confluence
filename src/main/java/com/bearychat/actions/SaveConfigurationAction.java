@@ -52,9 +52,6 @@ public class SaveConfigurationAction extends ConfluenceActionSupport {
       this.spaceKey = spaceKey;
    }
 
-   // =================================================================================================================
-   // We have to use setter injection if we don't use the defaultStack
-   // See https://jira.atlassian.com/browse/CONF-23137
    public void setConfigurationManager(ConfigurationManager configurationManager) {
       this.configurationManager = configurationManager;
    }

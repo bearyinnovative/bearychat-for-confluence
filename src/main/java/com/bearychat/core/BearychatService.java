@@ -19,22 +19,20 @@ public class BearychatService {
 	private final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	private final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory();
 
-	public void push(String webHookUrl, BearychatMessage text, String destination, List<BearychatAttachment> attachments) throws IOException {
+	public void push(String webHookUrl, BearychatMessage message, String destination) throws IOException {
 		Map<String, Object> payload = new HashMap<String, Object>();
 
 		if (destination != null && !"".equals(destination.trim())) {
 			payload.put("channel", destination);
 		}
 		
+		List<BearychatAttachment> attachments = message.getAttachments();
 		if (attachments != null && !attachments.isEmpty()) {
 			payload.put("attachments", attachments);
 		}
-		payload.put("text", text.toString());
-		execute(webHookUrl, payload);
-	}
 
-	public void push(String webHookUrl, BearychatMessage text, String destination) throws IOException {
-		push(webHookUrl, text, destination, null);
+		payload.put("text", message.toString());
+		execute(webHookUrl, payload);
 	}
 
 	public void execute(String webHookUrl, Map<String, Object> payload) throws IOException {

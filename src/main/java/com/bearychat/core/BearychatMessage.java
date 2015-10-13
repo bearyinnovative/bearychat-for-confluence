@@ -1,7 +1,11 @@
 package com.bearychat.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BearychatMessage {
     private StringBuilder textBuffer = new StringBuilder();
+    private List<BearychatAttachment> attachments = new ArrayList<BearychatAttachment>();
 
     public BearychatMessage() {
     }
@@ -21,13 +25,35 @@ public class BearychatMessage {
     }
 
     public BearychatMessage link(String url, String text) {
-        if (text != null && !text.trim().equals("")) {
-            textBuffer.append("<").append(url).append("|").append(text).append(">");
-        } else {
-            textBuffer.append("<").append(url).append(">");
+        if (text == null || text.trim().equals("")) {
+            text = "unknown display";
+        }
+
+        textBuffer.append("[").append(text).append("]").append("(").append(url).append(")");
+
+        return this;
+    }
+
+    public BearychatMessage attachments(List<BearychatAttachment> attachments) {
+        if(attachments != null) {
+            for(BearychatAttachment attachment :attachments){
+                this.attachments.add(attachment);
+            }
         }
 
         return this;
+    }
+
+    public BearychatMessage attachments(BearychatAttachment attachment) {
+        if(attachment != null) {
+            this.attachments.add(attachment);
+        }
+
+        return this;
+    }
+
+    public List<BearychatAttachment> getAttachments() {
+        return this.attachments;
     }
 
     public BearychatMessage bold(String text) {
