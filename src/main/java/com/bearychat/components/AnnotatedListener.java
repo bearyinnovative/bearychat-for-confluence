@@ -109,6 +109,9 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 
        BearychatMessage message = new BearychatMessage();
        String action = null;
+       String channel = null;
+
+
        ContentEntityObject owner = event.getComment().getOwner();
        if(owner instanceof AbstractPage){
 		   if(owner instanceof Page){
@@ -118,6 +121,12 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 		   }
 
            message = getMessage((AbstractPage)owner, action, false);
+
+           List<String> channels = this.getChannels((AbstractPage)owner);
+           if(channels != null && !channels.isEmpty()){
+               channel = channels.get(0);
+           }
+
        }
 
        String fullName = event.getComment().getCreator().getFullName();
@@ -128,7 +137,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
        String text = event.getComment().getBodyAsStringWithoutMarkup().trim();
        BearychatAttachment attachment = new BearychatAttachment(text).color(BearychatAttachment.BRIGHT_COLOR);
 
-       this.sendMessage(null, attachment, message);
+       this.sendMessage(channel, attachment, message);
    }
 
    private void sendMessage(String channel, BearychatMessage message) {
