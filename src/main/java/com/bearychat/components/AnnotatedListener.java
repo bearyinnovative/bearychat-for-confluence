@@ -18,11 +18,13 @@ import com.atlassian.confluence.event.events.content.blogpost.BlogPostCreateEven
 import com.atlassian.confluence.event.events.content.blogpost.BlogPostRemoveEvent;
 import com.atlassian.confluence.event.events.content.blogpost.BlogPostRestoreEvent;
 import com.atlassian.confluence.event.events.content.blogpost.BlogPostTrashedEvent;
+import com.atlassian.confluence.event.events.content.blogpost.BlogPostUpdateEvent;
 import com.atlassian.confluence.event.events.content.comment.CommentCreateEvent;
 import com.atlassian.confluence.event.events.content.page.PageCreateEvent;
 import com.atlassian.confluence.event.events.content.page.PageRemoveEvent;
 import com.atlassian.confluence.event.events.content.page.PageRestoreEvent;
 import com.atlassian.confluence.event.events.content.page.PageTrashedEvent;
+import com.atlassian.confluence.event.events.content.page.PageUpdateEvent;
 import com.atlassian.confluence.pages.AbstractPage;
 import com.atlassian.confluence.pages.Page;
 import com.atlassian.confluence.pages.TinyUrl;
@@ -63,6 +65,11 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
    }
 
    @EventListener
+   public void blogPostUpdateEvent(BlogPostUpdateEvent event) {
+      sendMessages(event, event.getBlogPost(), "Blog updated");
+   }
+
+   @EventListener
    public void blogPostRemoveEvent(BlogPostRemoveEvent event) {
 	   sendMessages(event, event.getBlogPost(), "Blog removed");
    }
@@ -84,10 +91,10 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 	   sendMessages(event, event.getPage(), attachment, "Page created");
    }
 
-//   @EventListener
-//   public void pageUpdateEvent(PageUpdateEvent event) {
-//      sendMessages(event, event.getPage(), "page updated");
-//   }
+   @EventListener
+   public void pageUpdateEvent(PageUpdateEvent event) {
+      sendMessages(event, event.getPage(), "page updated");
+   }
 
    @EventListener
    public void pageTrashedEvent(PageTrashedEvent event) {
