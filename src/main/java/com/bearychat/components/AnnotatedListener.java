@@ -59,6 +59,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
    @EventListener
    public void blogPostCreateEvent(BlogPostCreateEvent event) {
 	   String text = event.getBlogPost().getBodyAsStringWithoutMarkup().trim();
+	   text = ViewUtils.formatMessage(text);
 	   BearychatAttachment attachment = new BearychatAttachment(text).color(BearychatAttachment.BRIGHT_COLOR);
 
        sendMessages(event, event.getBlogPost(), attachment, "Blog created");
@@ -87,6 +88,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
    @EventListener
    public void pageCreateEvent(PageCreateEvent event) {
 	   String text = event.getPage().getBodyAsStringWithoutMarkup().trim();
+	   text = ViewUtils.formatMessage(text);
 	   BearychatAttachment attachment = new BearychatAttachment(text).color(BearychatAttachment.BRIGHT_COLOR);
 	   sendMessages(event, event.getPage(), attachment, "Page created");
    }
@@ -142,6 +144,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
        message.link(url, fullName);
 
        String text = event.getComment().getBodyAsStringWithoutMarkup().trim();
+       text = ViewUtils.formatMessage(text);
        BearychatAttachment attachment = new BearychatAttachment(text).color(BearychatAttachment.BRIGHT_COLOR);
 
        this.sendMessage(channel, attachment, message);
@@ -222,7 +225,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 
    private BearychatMessage appendPageLink(BearychatMessage message, AbstractPage page) {
 	   String title = page.getSpace().getDisplayTitle() + " - " + page.getTitle();
-	   title = ViewUtils.formatMessage(title, 80);
+	   title = ViewUtils.limitLength(title, 80);
 	   return message.link(tinyLink(page), title);
    }
 
