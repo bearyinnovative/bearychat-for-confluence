@@ -49,8 +49,10 @@ public class ViewUtils {
 		}
 		arrs = lines.toArray(new String[lines.size()]);
 
+		boolean truncated = true;
 		if (arrs.length <= lineNumber) {
 			lineNumber = arrs.length;
+			truncated = false;
 		}
 
 		StringBuffer sb = new StringBuffer();
@@ -58,7 +60,11 @@ public class ViewUtils {
 			String oneLine = arrs[i];
 			sb.append(oneLine).append("\n");
 		}
-		sb.append(arrs[lineNumber - 1]).append("...");
+		sb.append(arrs[lineNumber - 1]);
+
+		if(truncated){
+			sb.append("...");
+		}
 		return sb.toString();
 	}
 
