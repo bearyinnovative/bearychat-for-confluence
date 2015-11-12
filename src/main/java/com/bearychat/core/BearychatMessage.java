@@ -5,6 +5,7 @@ import java.util.List;
 
 public class BearychatMessage {
     private StringBuilder textBuffer = new StringBuilder();
+    private String notification = "";
     private List<BearychatAttachment> attachments = new ArrayList<BearychatAttachment>();
 
     public BearychatMessage() {
@@ -93,5 +94,13 @@ public class BearychatMessage {
             .replaceAll("(.*)```(.*)```(.*)", "$1$2$3")			// Remove pretext formatting
             .replaceAll("(.*)`(.*)`(.*)", "$1$2$3")				// Remove code formatting
             .replaceAll("\n>\\s+(.*)\n", "$1");					// Remove Quote formatting
+    }
+
+    public void setNotification(String notification){
+        this.notification = notification;
+    }
+
+    public String getNotification(){
+        return this.notification;
     }
 }

@@ -2,7 +2,6 @@ package com.bearychat.components;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -120,6 +119,8 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
        String action = null;
        String channel = null;
 
+       String fullName = event.getComment().getCreator().getFullName();
+       String url = webResourceUrlProvider.getBaseUrl(UrlMode.ABSOLUTE) + "/" + personalInformationManager.getOrCreatePersonalInformation(event.getComment().getCreator()).getUrlPath();
 
        ContentEntityObject owner = event.getComment().getOwner();
        if(owner instanceof AbstractPage){
@@ -135,11 +136,8 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
            if(channels != null && !channels.isEmpty()){
                channel = channels.get(0);
            }
-
        }
 
-       String fullName = event.getComment().getCreator().getFullName();
-       String url = webResourceUrlProvider.getBaseUrl(UrlMode.ABSOLUTE) + "/" + personalInformationManager.getOrCreatePersonalInformation(event.getComment().getCreator()).getUrlPath();
 
        message.link(url, fullName);
 
@@ -163,8 +161,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 
        try {
            new Bearychat(configurationManager.getWebhookUrl()).channel(channel).push(message);
-       }
-       catch (IOException e) {
+       } catch (Exception e) {
            LOGGER.error("Error when sending BearyChat message", e);
        }
    }
@@ -205,7 +202,11 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 
    private BearychatMessage getMessage(AbstractPage page, String action, boolean appendUser) {
       ConfluenceUser user = page.getLastModifier() != null ? page.getLastModifier() : page.getCreator();
+      String rawText = this.getRawText(page, action, user);
+
       BearychatMessage message = new BearychatMessage();
+      message.setNotification(rawText);
+
       message = appendPageLink(message, page);
       message = message.text(" - " + action + " by ");
       if(appendUser){
@@ -231,6 +232,12 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
 
    private String tinyLink(AbstractPage page) {
       return webResourceUrlProvider.getBaseUrl(UrlMode.ABSOLUTE) + "/x/" + new TinyUrl(page).getIdentifier();
+   }
+
+   private String getRawText(AbstractPage page, String action, ConfluenceUser user){
+	   String title = page.getSpace().getDisplayTitle() + " - " + page.getTitle();
+	   title = ViewUtils.limitLength(title, 80);
+	   return title + " - " + action + " by " + user.getFullName();
    }
 
    @Override
