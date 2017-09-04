@@ -5,37 +5,47 @@ import com.bearychat.components.ConfigurationManager;
 import com.opensymphony.xwork.Action;
 
 public final class ViewSpaceConfigurationAction extends AbstractSpaceAdminAction {
-   private static final long          serialVersionUID = 5691912273454934901L;
+    private static final long          serialVersionUID = 5691912273454934901L;
 
-   private final ConfigurationManager configurationManager;
-   private String                     channels;
-   private boolean                    successFullUpdate;
+    private final ConfigurationManager configurationManager;
+    private String                     channels;
+    private String                     webhook;
+    private boolean                    successFullUpdate;
 
-   public ViewSpaceConfigurationAction(ConfigurationManager configurationManager) {
-      this.configurationManager = configurationManager;
-   }
+    public ViewSpaceConfigurationAction(ConfigurationManager configurationManager) {
+        this.configurationManager = configurationManager;
+    }
 
-   public void setResult(String result) {
-      if ("success".equals(result)) {
-         successFullUpdate = true;
-      }
-   }
+    public void setResult(String result) {
+        if ("success".equals(result)) {
+            successFullUpdate = true;
+        }
+    }
 
-   @Override
-   public String execute() {
-      setChannels(configurationManager.getSpaceChannels(key));
-      return Action.SUCCESS;
-   }
+    @Override
+    public String execute() {
+        setChannels(configurationManager.getSpaceChannels(key));
+        setWebhook(configurationManager.getSpaceWebhookUrl(key));
+        return Action.SUCCESS;
+    }
 
-   public void setChannels(String channels) {
-      this.channels = channels;
-   }
+    public void setWebhook(String webhook) {
+        this.webhook = webhook;
+    }
 
-   public String getChannels() {
-      return channels;
-   }
+    public String getWebhook() {
+        return this.webhook;
+    }
 
-   public boolean isSuccessFullUpdate() {
-      return successFullUpdate;
-   }
+    public void setChannels(String channels) {
+        this.channels = channels;
+    }
+
+    public String getChannels() {
+        return this.channels;
+    }
+
+    public boolean isSuccessFullUpdate() {
+        return successFullUpdate;
+    }
 }
