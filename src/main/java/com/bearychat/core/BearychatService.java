@@ -21,11 +21,11 @@ public class BearychatService {
     private final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory();
 
-    public void push(String webHookUrl, BearychatMessage message, String destination) throws IOException {
+    public void push(String webHookUrl, BearychatMessage message, String channel) throws IOException {
         Map<String, Object> payload = new HashMap<String, Object>();
 
-        if (destination != null && !"".equals(destination.trim())) {
-            payload.put("channel", destination);
+        if (channel != null && !"".equals(channel.trim())) {
+            payload.put("channel", channel);
         }
 
         List<BearychatAttachment> attachments = message.getAttachments();
