@@ -12,56 +12,76 @@ import com.bearychat.components.ConfigurationManager;
 import com.opensymphony.xwork.Action;
 
 public class SaveSpaceConfigurationAction extends ConfluenceActionSupport {
-   private static final long    serialVersionUID = -3368277537107958205L;
+    private static final long serialVersionUID = -3368277537107958205L;
 
-   private ConfigurationManager configurationManager;
-   private SpaceManager         spaceManager;
+    private ConfigurationManager configurationManager;
+    private SpaceManager spaceManager;
 
-   private String               key;
-   private String               channels;
+    private String key;
+    private String channels;
+    private String webhookUrl;
+    private String enabled;
 
-   @Override
-   public void validate() {
-      super.validate();
+    @Override
+    public void validate() {
+        super.validate();
 
-      if (StringUtils.isBlank(key) || spaceManager.getSpace(key) == null) {
-         addActionError(getText("bearychat.spaceconfig.spacekeyerror"));
-      }
-   }
+        if (StringUtils.isBlank(key) || spaceManager.getSpace(key) == null) {
+            addActionError(getText("bearychat.spaceconfig.spacekeyerror"));
+        }
+    }
 
-   @Override
-   public boolean isPermitted() {
-      return spacePermissionManager.hasPermissionForSpace(getAuthenticatedUser(), Arrays.asList(SpacePermission.ADMINISTER_SPACE_PERMISSION), spaceManager.getSpace(key));
-   }
+    @Override
+    public boolean isPermitted() {
+        return spacePermissionManager.hasPermissionForSpace(getAuthenticatedUser(), Arrays.asList(SpacePermission.ADMINISTER_SPACE_PERMISSION), spaceManager.getSpace(key));
+    }
 
-   @Override
-   @RequireSecurityToken(true)
-   public String execute() throws Exception {
-      configurationManager.setSpaceChannels(key, channels);
-      return Action.SUCCESS;
-   }
+    @Override
+    @RequireSecurityToken(true)
+    public String execute() throws Exception {
+        configurationManager.setSpaceChannels(key, channels);
+        configurationManager.setSpaceWebhookUrl(key, webhookUrl);
+        configurationManager.setSpaceEnabled(key, Boolean.valueOf(enabled));
+        return Action.SUCCESS;
+    }
 
-   public String getKey() {
-      return key;
-   }
+    public String getKey() {
+        return key;
+    }
 
-   public void setKey(String key) {
-      this.key = key;
-   }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-   public String getChannels() {
-      return channels;
-   }
+    public String getChannels() {
+        return channels;
+    }
 
-   public void setChannels(String channels) {
-      this.channels = channels;
-   }
+    public void setChannels(String channels) {
+        this.channels = channels;
+    }
 
-   public void setConfigurationManager(ConfigurationManager configurationManager) {
-      this.configurationManager = configurationManager;
-   }
+    public String getWebhookUrl() {
+        return webhookUrl;
+    }
 
-   public void setSpaceManager(SpaceManager spaceManager) {
-      this.spaceManager = spaceManager;
-   }
+    public void setWebhookUrl(String webhookUrl) {
+        this.webhookUrl = webhookUrl;
+    }
+
+    public String getEnabled () {
+        return enabled;
+    }
+
+    public void setEnabled (String enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setConfigurationManager(ConfigurationManager configurationManager) {
+        this.configurationManager = configurationManager;
+    }
+
+    public void setSpaceManager(SpaceManager spaceManager) {
+        this.spaceManager = spaceManager;
+    }
 }

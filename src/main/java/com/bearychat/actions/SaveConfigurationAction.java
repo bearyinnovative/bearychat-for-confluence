@@ -9,55 +9,55 @@ import com.bearychat.components.ConfigurationManager;
 import com.opensymphony.xwork.Action;
 
 public class SaveConfigurationAction extends ConfluenceActionSupport {
-   private static final long    serialVersionUID = 1704624386670934630L;
+    private static final long    serialVersionUID = 1704624386670934630L;
 
-   private ConfigurationManager configurationManager;
-   private PermissionManager    permissionManager;
+    private ConfigurationManager configurationManager;
+    private PermissionManager    permissionManager;
 
-   private String               spaceKey;
-   private String               bearychatWebhookUrl;
+    private String               spaceKey;
+    private String               bearychatWebhookUrl;
 
-   @Override
-   public boolean isPermitted() {
-      return permissionManager.isConfluenceAdministrator(getAuthenticatedUser());
-   }
+    @Override
+    public boolean isPermitted() {
+        return permissionManager.isConfluenceAdministrator(getAuthenticatedUser());
+    }
 
-   public void setBearychatWebhookUrl(String bearychatWebhookUrl) {
-      this.bearychatWebhookUrl = bearychatWebhookUrl;
-   }
+    public void setBearychatWebhookUrl(String bearychatWebhookUrl) {
+        this.bearychatWebhookUrl = bearychatWebhookUrl;
+    }
 
-   @Override
-   public void validate() {
-      if (StringUtils.isBlank(bearychatWebhookUrl)) {
-         addActionError(getText("bearychat.webhookurl.form.invalid"));
-      }
-   }
+    @Override
+    public void validate() {
+        if (StringUtils.isBlank(bearychatWebhookUrl)) {
+            addActionError(getText("bearychat.webhookurl.form.invalid"));
+        }
+    }
 
-   @Override
-   @RequireSecurityToken(true)
-   public String execute() throws Exception {
-      configurationManager.setWebhookUrl(bearychatWebhookUrl);
+    @Override
+    @RequireSecurityToken(true)
+    public String execute() throws Exception {
+        configurationManager.setWebhookUrl(bearychatWebhookUrl);
 
-      if (StringUtils.isNotBlank(spaceKey)) {
-         return "redirect";
-      }
-      return Action.SUCCESS;
-   }
+        if (StringUtils.isNotBlank(spaceKey)) {
+            return "redirect";
+        }
+        return Action.SUCCESS;
+    }
 
-   public String getSpaceKey() {
-      return spaceKey;
-   }
+    public String getSpaceKey() {
+        return spaceKey;
+    }
 
-   public void setSpaceKey(String spaceKey) {
-      this.spaceKey = spaceKey;
-   }
+    public void setSpaceKey(String spaceKey) {
+        this.spaceKey = spaceKey;
+    }
 
-   public void setConfigurationManager(ConfigurationManager configurationManager) {
-      this.configurationManager = configurationManager;
-   }
+    public void setConfigurationManager(ConfigurationManager configurationManager) {
+        this.configurationManager = configurationManager;
+    }
 
-   @Override
-   public void setPermissionManager(PermissionManager permissionManager) {
-      this.permissionManager = permissionManager;
-   }
+    @Override
+    public void setPermissionManager(PermissionManager permissionManager) {
+        this.permissionManager = permissionManager;
+    }
 }
