@@ -5,8 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bearychat</groupId>
-    <artifactId>bearychat-for-confluence</artifactId>
-    <version>1.7</version>
+    <artifactId>bearychat-confluence-plugin</artifactId>
+    <version>1.7.1</version>
 
     <organization>
         <name>Beary Innovative</name>
@@ -14,7 +14,7 @@
     </organization>
 
     <packaging>atlassian-plugin</packaging>
-    <name>BearyChat for Confluence</name>
+    <name>BearyChat Confluence Plugin</name>
     <url>https://github.com/bearyinnovative/bearychat-for-confluence</url>
     <description>This is the BearyChat plugin for Confluence.</description>
 
