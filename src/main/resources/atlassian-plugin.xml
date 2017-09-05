@@ -7,7 +7,7 @@
     </plugin-info>
 
     <!-- add our i18n resource -->
-    <resource type="i18n" name="i18n" location="bearychat-for-confluence"/>
+    <resource type="i18n" name="i18n" location="bearychat-confluence-plugin"/>
     
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
     
