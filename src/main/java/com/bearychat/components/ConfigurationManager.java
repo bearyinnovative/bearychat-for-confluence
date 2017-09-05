@@ -7,7 +7,7 @@ import com.bearychat.components.ConfigurationOption;
 
 public class ConfigurationManager {
     private static final ConfluenceBandanaContext GLOBAL_CONTEXT = ConfluenceBandanaContext.GLOBAL_CONTEXT;
-    private BandanaManager                        bandanaManager;
+    private BandanaManager bandanaManager;
 
     public ConfigurationManager(BandanaManager bandanaManager) {
         this.bandanaManager = bandanaManager;
@@ -30,19 +30,37 @@ public class ConfigurationManager {
     }
 
     public void setSpaceChannels(String spaceKey, String channels) {
-        bandanaManager.setValue(new ConfluenceBandanaContext(spaceKey), ConfigurationOption.CHANNELS.getBandanaKey(), channels);
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        bandanaManager.setValue(context, ConfigurationOption.CHANNELS.getBandanaKey(), channels);
     }
 
     public String getSpaceChannels(String spaceKey) {
-        return getBandanaValue(new ConfluenceBandanaContext(spaceKey), ConfigurationOption.CHANNELS);
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        return getBandanaValue(context, ConfigurationOption.CHANNELS);
     }
 
     public void setSpaceWebhookUrl(String spaceKey, String webhookUrl) {
-        bandanaManager.setValue(new ConfluenceBandanaContext(spaceKey), ConfigurationOption.WEBHOOK_URL.getBandanaKey(), webhookUrl);
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        bandanaManager.setValue(context, ConfigurationOption.WEBHOOK_URL.getBandanaKey(), webhookUrl);
     }
 
     public String getSpaceWebhookUrl(String spaceKey) {
-        return getBandanaValue(new ConfluenceBandanaContext(spaceKey), ConfigurationOption.WEBHOOK_URL);
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        return getBandanaValue(context, ConfigurationOption.WEBHOOK_URL);
+    }
+
+    public void setSpaceEnabled(String spaceKey, Boolean enabled) {
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        bandanaManager.setValue(context, ConfigurationOption.ENABLED.getBandanaKey(), enabled);
+    }
+
+    public Boolean getSpaceEnabled(String spaceKey) {
+        ConfluenceBandanaContext context = new ConfluenceBandanaContext(spaceKey);
+        Object enabled = bandanaManager.getValue(context, ConfigurationOption.ENABLED.getBandanaKey());
+        if (enabled == null) {
+            return null;
+        }
+        return (Boolean) enabled;
     }
 
     private String getBandanaValue(BandanaContext bandanaContext, ConfigurationOption configurationOption) {

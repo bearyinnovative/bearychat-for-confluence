@@ -52,13 +52,21 @@
     </p>
 
     <div class="field-group">
-        <label for="webhook">Webhook URL</label>
-        <input id="webhook" class="text long-field" type="text" name="webhook" value="$!action.webhook">
+        <label for="webhookUrl">Webhook URL</label>
+        <input id="webhookUrl" class="text long-field" type="text" name="webhookUrl" value="$!action.webhookUrl">
     </div>
 
     <div class="field-group">
         <label for="channels">Channel Name(without #)</label>
         <input id="channels" class="text long-field" type="text" name="channels" value="$!action.channels"/>
+    </div>
+
+    <div class="field-group">
+        <label for="enabled">Enable Notification</label>
+        <select name="enabled">
+            <option value="false">Disable</option>
+            <option value="true" #if($action.enabled) selected="selected" #end>Enable</option>
+        </select>
     </div>
 
     <div class="buttons-container">

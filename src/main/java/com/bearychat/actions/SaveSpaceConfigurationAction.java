@@ -12,14 +12,15 @@ import com.bearychat.components.ConfigurationManager;
 import com.opensymphony.xwork.Action;
 
 public class SaveSpaceConfigurationAction extends ConfluenceActionSupport {
-    private static final long    serialVersionUID = -3368277537107958205L;
+    private static final long serialVersionUID = -3368277537107958205L;
 
     private ConfigurationManager configurationManager;
-    private SpaceManager         spaceManager;
+    private SpaceManager spaceManager;
 
-    private String               key;
-    private String               channels;
-    private String               webhook; 
+    private String key;
+    private String channels;
+    private String webhookUrl;
+    private String enabled;
 
     @Override
     public void validate() {
@@ -39,6 +40,8 @@ public class SaveSpaceConfigurationAction extends ConfluenceActionSupport {
     @RequireSecurityToken(true)
     public String execute() throws Exception {
         configurationManager.setSpaceChannels(key, channels);
+        configurationManager.setSpaceWebhookUrl(key, webhookUrl);
+        configurationManager.setSpaceEnabled(key, Boolean.valueOf(enabled));
         return Action.SUCCESS;
     }
 
@@ -58,12 +61,20 @@ public class SaveSpaceConfigurationAction extends ConfluenceActionSupport {
         this.channels = channels;
     }
 
-    public String getWebhook() {
-        return webhook;
+    public String getWebhookUrl() {
+        return webhookUrl;
     }
 
-    public void setWebhook(String webhook) {
-        this.webhook = webhook;
+    public void setWebhookUrl(String webhookUrl) {
+        this.webhookUrl = webhookUrl;
+    }
+
+    public String getEnabled () {
+        return enabled;
+    }
+
+    public void setEnabled (String enabled) {
+        this.enabled = enabled;
     }
 
     public void setConfigurationManager(ConfigurationManager configurationManager) {

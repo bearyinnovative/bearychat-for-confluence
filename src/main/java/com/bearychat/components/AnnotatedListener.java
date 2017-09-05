@@ -119,6 +119,7 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
         String action = null;
         String channel = null;
         String webhookUrl = null;
+        Boolean enabled = false;
 
         String fullName = event.getComment().getCreator().getFullName();
         String url = webResourceUrlProvider.getBaseUrl(UrlMode.ABSOLUTE) + "/" + personalInformationManager.getOrCreatePersonalInformation(event.getComment().getCreator()).getUrlPath();
@@ -139,6 +140,11 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
             }
 
             webhookUrl = this.getWebhookUrl((AbstractPage) owner);
+            enabled = this.getEnabled((AbstractPage) owner, null);
+        }
+
+        if (!enabled) {
+            return ;
         }
 
         if (webhookUrl == null) {
@@ -182,6 +188,12 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
             return;
         }
 
+        Boolean enabled = this.getEnabled(page, event);
+
+        if (!enabled) {
+            return ;
+        }
+
         List<String> channels = this.getChannels(page);
         BearychatMessage message = getMessage(page, action, true);
 
@@ -215,6 +227,15 @@ public class AnnotatedListener implements DisposableBean, InitializingBean {
             return configurationManager.getWebhookUrl();
         }
         return spaceWebhook;
+    }
+
+    private Boolean getEnabled(AbstractPage page, ContentEvent event) {
+        String spaceKey = page.getSpaceKey();
+        Boolean enabled = configurationManager.getSpaceEnabled(spaceKey);
+        if (enabled == null) {
+            return false;
+        }
+        return enabled;
     }
 
     private BearychatMessage getMessage(AbstractPage page, String action, boolean appendUser) {

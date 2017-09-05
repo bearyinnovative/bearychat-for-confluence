@@ -1,7 +1,7 @@
 package com.bearychat.components;
 
 public enum ConfigurationOption {
-    WEBHOOK_URL("webhook.url"), CHANNELS("channels");
+    WEBHOOK_URL("webhook.url"), CHANNELS("channels"), ENABLED("enabled");
 
     private String suffix;
 
