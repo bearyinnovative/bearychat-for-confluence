@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bearychat</groupId>
     <artifactId>bearychat-confluence-plugin</artifactId>
-    <version>1.7.1</version>
+    <version>1.7.2</version>
 
     <organization>
         <name>Beary Innovative</name>
