@@ -29,7 +29,7 @@ public class SaveConfigurationAction extends ConfluenceActionSupport {
     @Override
     public void validate() {
         if (StringUtils.isBlank(bearychatWebhookUrl)) {
-            addActionError(getText("bearychat.webhookurl.form.invalid"));
+            addActionError(getText("bearychat.WebhookURLInvalid"));
         }
     }
 

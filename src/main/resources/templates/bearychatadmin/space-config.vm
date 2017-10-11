@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>BearyChat Configuration</title>
+    <title>$action.getText("bearychat.Configuration")</title>
     <meta name="decorator" content="atl.general"/>
 </head>
     #applyDecorator("root")
@@ -14,7 +14,7 @@
     #applyDecorator ("root")
     #decoratorParam ("context" "spaceadminpanel")
     #decoratorParam ("selection" "bearychat-space-configuration")
-    #decoratorParam ("title" "BearyChat Configuration")
+    #decoratorParam ("title" "$action.getText("bearychat.Configuration")")
     #decoratorParam ("selectedTab" "admin")
     #decoratorParam ("selectedSpaceToolsWebItem" "bearychat-space-configuration-2")
     #decoratorParam("helper" $action.helper)
@@ -23,7 +23,7 @@
 
 <form id="bearychat-form" action="doconfigure-bearychat.action" method="post"
       class="aui edit-space-details">
-    <h2>BearyChat Configuration</h2>
+    <h2>$action.getText("bearychat.Configuration")</h2>
 
     #form_xsrfToken()
     <input type="hidden" name="key" value="$generalUtil.urlEncode($action.key)" />
@@ -42,13 +42,13 @@
             <div class="aui-message success shadowed closeable">
                 <p class="title">
                     <span class="aui-icon icon-success"></span>
-                    <strong>$action.getText("bearychat.action.success.spaceconfig")</strong>
+                    <strong>$action.getText("bearychat.SpaceUpdateSuccess")</strong>
                 </p>
             </div>
         <!-- .aui-message -->
         #end
     <p>
-        Confluence will notify a BearyChat channel when a blog/page is created/trashed/deleted/restored, comment is created. Enter the BearyChat channel to be notified below.
+        $action.getText("bearychat.SpaceDesc")
     </p>
 
     <div class="field-group">
@@ -57,22 +57,22 @@
     </div>
 
     <div class="field-group">
-        <label for="channels">Channel Name(without #)</label>
+        <label for="channels">$action.getText("bearychat.ChannelName") ($action.getText("bearychat.without") #)</label>
         <input id="channels" class="text long-field" type="text" name="channels" value="$!action.channels"/>
     </div>
 
     <div class="field-group">
-        <label for="enabled">Enable Notification</label>
+        <label for="enabled">$action.getText("bearychat.EnableNotification")</label>
         <select name="enabled">
-            <option value="false">Disable</option>
-            <option value="true" #if($action.enabled) selected="selected" #end>Enable</option>
+            <option value="false">$action.getText("bearychat.Disable")</option>
+            <option value="true" #if($action.enabled) selected="selected" #end>$action.getText("bearychat.Enable")</option>
         </select>
     </div>
 
     <div class="buttons-container">
         <div class="buttons">
-            <input class="button submit" type="submit" value="Save"/>
-            <a class=="cancel" href="">Cancel</a>
+            <button class="button submit" type="submit">$action.getText("bearychat.Save")</button>
+            <a class=="cancel" href="">$action.getText("bearychat.Cancel")</a>
         </div>
     </div>
 </form>
