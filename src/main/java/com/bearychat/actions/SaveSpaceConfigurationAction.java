@@ -22,12 +22,11 @@ public class SaveSpaceConfigurationAction extends ConfluenceActionSupport {
     private String webhookUrl;
     private String enabled;
 
-    @Override
-    public void validate() {
+    @Override public void validate() {
         super.validate();
 
         if (StringUtils.isBlank(key) || spaceManager.getSpace(key) == null) {
-            addActionError(getText("bearychat.spaceconfig.spacekeyerror"));
+            addActionError(getText("bearychat.SpaceKeyError"));
         }
     }
 

@@ -45,8 +45,8 @@
 
     <web-item key="bearychat-configuration" name="BearyChat Configuration" section="system.admin/configuration"
               weight="1000">
-        <description key="bearychat-configuration.name">BearyChat Configuration</description>
-        <label key="bearychat-configuration.name"/>
+        <description key="bearychat.Configuration">BearyChat Configuration</description>
+        <label key="bearychat.Configuration"/>
         <link linkId="bearychat-configuration">/admin/bearychat.action</link>
         <condition class="com.atlassian.confluence.plugin.descriptor.web.conditions.ConfluenceAdministratorCondition"/>
     </web-item>
